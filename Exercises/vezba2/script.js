@@ -51,7 +51,7 @@ $('#saveButton').click(function () {
                     employees[i].lastName = $(`#last${i}`).val();
                     employees[i].email = $(`#email${i}`).val();
                     employees[i].password = $(`#password${i}`).val();
-                     $(`#edit${i}`).css('display', 'block');
+                    $(`#edit${i}`).css('display', 'block');
                     $(`#save${i}, #delete${i}`).css('display', 'none');
                     $(`#name${i}, #last${i}, #email${i}, #password${i}`).attr('readonly', 'readonly');
 
@@ -101,10 +101,5 @@ $('#saveButton').click(function () {
         $('#password').val('');
     }
 });
-
-
-
-
-
 
 
