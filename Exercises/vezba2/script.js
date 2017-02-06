@@ -16,13 +16,17 @@ $('#saveButton').click(function () {
     let email = $('#email').val();
     let password = $('#password').val();
 
-    let employee = new Employee(firstName, lastName, email, password);
-    employees.push(employee);
+    if (firstName == '' || lastName == '' || email == '' || password == '') {
+        alert('Please fill all the empty inputs');
+    }
+    else {
+        let employee = new Employee(firstName, lastName, email, password);
+        employees.push(employee);
 
-    function appendEmployees() {
-        $("#tfoot").html('');
-        for (let i = 0; i < employees.length; i++) {
-            $("#tfoot").append(`
+        function appendEmployees() {
+            $("#tfoot").html('');
+            for (let i = 0; i < employees.length; i++) {
+                $("#tfoot").append(`
     <tr id='row${i}'>
            <td> <p>${i + 1}</p></td>
             <td> <input type="text" class="form-control" value="${employees[i].firstName}" id="name${i}" readonly></td>
@@ -34,37 +38,72 @@ $('#saveButton').click(function () {
             <td> <input type="button" class="btn btn-danger" id='delete${i}' value="X" "</td>
     </tr>`)
 
-            //edit button------------------------------------------------------------------------------------------------------------------------------
-            $(`#edit${i}`).click(function () {
-                $(`#save${i}, #delete${i}`).css('display', 'block');
-                $(`#name${i}, #last${i}, #email${i}, #password${i}`).removeAttr('readonly');
+                //edit button------------------------------------------------------------------------------------------------------------------------------
+                $(`#edit${i}`).click(function () {
+                    $(`#save${i}, #delete${i}`).css('display', 'block');
+                    $(`#name${i}, #last${i}, #email${i}, #password${i}`).removeAttr('readonly');
+                    $(`#edit${i}`).css('display', 'none');
 
-            });
-            //save after edit button------------------------------------------------------------------------------------------------------------------------------
-            $(`#save${i}`).click(function () {
-                $(`#save${i}, #delete${i}`).css('display', 'none');
-                $(`#name${i}, #last${i}, #email${i}, #password${i}`).attr('readonly', 'readonly');
+                });
+                //save after edit button------------------------------------------------------------------------------------------------------------------------------
+                $(`#save${i}`).click(function () {
+                    employees[i].firstName = $(`#name${i}`).val();
+                    employees[i].lastName = $(`#last${i}`).val();
+                    employees[i].email = $(`#email${i}`).val();
+                    employees[i].password = $(`#password${i}`).val();
+                     $(`#edit${i}`).css('display', 'block');
+                    $(`#save${i}, #delete${i}`).css('display', 'none');
+                    $(`#name${i}, #last${i}, #email${i}, #password${i}`).attr('readonly', 'readonly');
 
-            });
-            //delete button------------------------------------------------------------------------------------------------------------------------------
-            $(`#delete${i}`).click(function () {
-                $(`#row${i}`).remove();
-                employees.splice(i, 1);
-                appendEmployees();
+                });
+                //delete button------------------------------------------------------------------------------------------------------------------------------
+                $(`#delete${i}`).click(function () {
+                    $(`#row${i}`).remove();
+                    employees.splice(i, 1);
+                    appendEmployees();
 
-            });
+                });
+            }
+        };
+
+        appendEmployees();
+
+        //sorting function-----------------------------------------------------------------------------------------------------------------
+        function sortEmployees(selector) {
+            employees.sort((a, b) => selector(a).localeCompare(selector(b)));
+            appendEmployees();
         }
-    };
+        //ascend by first name------------------------------------------------------------------------------------------------------------
+        $('#ascName').click(function () {
+            sortEmployees(a => a.firstName);
+        });
 
-    appendEmployees();
+        //ascend by last name------------------------------------------------------------------------------------------------------------
+        $('#ascLast').click(function () {
+            sortEmployees(a => a.lastName);
+        });
+
+        //ascend by last name------------------------------------------------------------------------------------------------------------
+        $('#ascEmail').click(function () {
+            sortEmployees(a => a.email);
+        });
+
+        //ascend by password------------------------------------------------------------------------------------------------------------
+        $('#ascPass').click(function () {
+            sortEmployees(a => a.password);
+        });
 
 
 
-    $('#firstName').val('');
-    $('#lastName').val('');
-    $('#email').val('');
-    $('#password').val('');
+        $('#firstName').val('');
+        $('#lastName').val('');
+        $('#email').val('');
+        $('#password').val('');
+    }
 });
+
+
+
 
 
 
