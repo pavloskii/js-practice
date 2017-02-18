@@ -7,16 +7,16 @@ $(() => {
         }
     });
 
-    //  $("#search").on("click", () => {
-    //     let searchTerm = $("#searchTerm").val().toLowerCase();
-    //     let books = allBooks.filter(b => {
-    //         if (b.author.toLowerCase().indexOf(searchTerm) !== -1)
-    //             return true;
-    //         return false;
-    //     });
-    //     clearTable();
-    //     books.forEach(b => displayBook(b)); 
-    // })
+     $("#search").on("click", () => {
+        let searchTerm = $("#searchTerm").val().toLowerCase();
+        let books = allBooks.filter(b => {
+            if (b.author.toLowerCase().indexOf(searchTerm) !== -1)
+                return true;
+            return false;
+        });
+        clearTable();
+        books.forEach(b => displayBook(b)); 
+    })
 
 
 });
